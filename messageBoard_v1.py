@@ -1,15 +1,15 @@
-""" Message Board 2019: Object-oriented version
-    Not GUI yet though. Also no security whatsoever."""
+""" Message Board 2019: v1.1
+    Not GUI yet, also with no security whatsoever."""
 import csv,sys,os,time,traceback,glob
 from datetime import datetime
-sys.path.append("./modules")
-from strManipulation import title
+sys.path.append(str(sys.path[0])+"/modules")
+from stringEdit import title
 
 def linebr():
     print("---------\n".center(70))
 
 class MessageBoard(object):
-    dir_path = "./" 
+    dir_path=sys.path[0]+"/"
     password = "aesthetics"
     List = []
 
@@ -32,21 +32,18 @@ class MessageBoard(object):
     # OBTAIN + OVERWRITE CONTENTS OF CSV
     def refresh(self):
         self.msg_list.clear()
-        msgFile = open(self.abs_path,mode = "r",newline="")
-        reader = csv.reader(msgFile)
-        msgCount = 0
-        for row in reader:
-            self.msg_list.append(row)
-            msgCount += 1
-        msgFile.close()
+        msg_file = open(self.abs_path,mode = "r",newline="")
+        reader = csv.reader(msg_file)
+        self.msg_list=list(reader)
+        msg_file.close()
         
     # close refresh
 
     def overwrite(self):
-        msgFile = open(self.abs_path,mode = "w",newline="")
-        writer = csv.writer(msgFile)
+        msg_file = open(self.abs_path,mode = "w",newline="")
+        writer = csv.writer(msg_file)
         writer.writerows(self.msg_list)
-        msgFile.close()
+        msg_file.close()
     # close toFile
 
     # READ BOARD
@@ -259,8 +256,10 @@ class MessageBoard(object):
         self.abs_path = MessageBoard.dir_path+self.current
         self.refresh()
     # close switchBoards
+# close MessageBoard
 
 # main #
-MsgBoard = MessageBoard()
-while True:
-    MsgBoard.options()
+if __name__ == "__main__":
+    MsgBoard = MessageBoard()
+    while True:
+        MsgBoard.options()
